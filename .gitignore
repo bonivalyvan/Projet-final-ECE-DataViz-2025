@@ -4,4 +4,4 @@ __pycache__/
 .env
 venv/
 .vscode/
-data/raw/
+#data/raw/
