@@ -13,10 +13,10 @@ load_css()
 df, _ = sidebar_filters()
 
 if df is not None:
-    st.title("📊 Analyse de Rétention par Cohortes")
+    st.title(" Analyse de Rétention par Cohortes")
 
     # ============ GUIDE DES COHORTES ============
-    with st.expander("ℹ️ Comprendre la Heatmap de Rétention", expanded=False):
+    with st.expander(" Comprendre la Heatmap de Rétention", expanded=False):
         st.markdown("""
         ### Qu'est-ce qu'une Cohorte?
         Une cohorte = groupe de clients ayant effectué leur **première achat le même mois**.
@@ -40,13 +40,13 @@ if df is not None:
         - **Insight** : Cette cohorte "décroche" rapidement (chute de 45% à 25%) → Mauvaise fidélisation
         
         ### Patterns à Observer
-        - ⚠️ **Colonnes claires** : Mauvaise rétention globale (problème produit/service?)
-        - 🏆 **Lignes foncées** : Cohorte fidèle (bon timing d'acquisition?)
-        - 📉 **Décroissance progressive** : Normal, mais vitesse importante
+        -  **Colonnes claires** : Mauvaise rétention globale (problème produit/service?)
+        -  **Lignes foncées** : Cohorte fidèle (bon timing d'acquisition?)
+        -  **Décroissance progressive** : Normal, mais vitesse importante
         """)
 
     # ============ HEATMAP DE RÉTENTION ============
-    st.markdown("### 🔥 HEATMAP de Rétention")
+    st.markdown("###  HEATMAP de Rétention")
     
     retention_matrix, cohort_size = compute_cohorts(df)
 
@@ -75,7 +75,7 @@ if df is not None:
 
     # ============ COURBES DE CA PAR ÂGE DE COHORTE ============
     st.markdown("---")
-    st.markdown("### 💰 Revenu CA par Âge de Cohorte (Densité)")
+    st.markdown("###  Revenu CA par Âge de Cohorte (Densité)")
     
     # Calculer CA par cohorte et âge
     df_ca = df[['Customer ID', 'InvoiceDate', 'TotalPrice']].copy()
@@ -94,7 +94,7 @@ if df is not None:
             y='mean',
             color='count',
             labels={'CohortAge': 'Âge de Cohorte (Mois)', 'mean': 'CA Moyen par Transaction (£)', 'count': 'Nombre de Transactions'},
-            title='💰 CA Moyen par Âge de Cohorte',
+            title=' CA Moyen par Âge de Cohorte',
             color_continuous_scale='Viridis'
         )
         fig_ca_age.update_xaxes(title_text="Mois depuis Acquisition (M+0 à M+12)")
@@ -104,7 +104,7 @@ if df is not None:
         st.plotly_chart(style_plot(fig_ca_age), use_container_width=True)
         
         st.markdown("""
-        💡 **Insights CA par Âge** :
+         **Insights CA par Âge** :
         - **M+0 vs M+1** : Le panier moyen chute-t-il? (Signal de mauvaise satisfaction?)
         - **M+2 à M+6** : Plateau ou décroissance? (Fidèles vs Churn)
         - **Couleur (Nombre transactions)** : Indique le volume à chaque âge
@@ -140,7 +140,7 @@ if df is not None:
         st.plotly_chart(style_plot(fig_avg, "📈 Rétention Moyenne Toutes Cohortes"), use_container_width=True)
         
         st.markdown("""
-        💡 **Insights Clés** :
+         **Insights Clés** :
         - Quelle est la pente du déclin de rétention (M+1 vs M+3 vs M+6)?
         - Y a-t-il un palier (stagnation du taux de départ)?
         - Est-ce que la rétention M+1 est inférieure à 40%? (Problème d'onboarding potentiel)
@@ -198,7 +198,7 @@ if df is not None:
             fig_cohort_detail.update_yaxes(tickformat='.0%')
             fig_cohort_detail.update_layout(height=400)
             
-            st.plotly_chart(style_plot(fig_cohort_detail, f"📊 Courbe de Rétention Cohorte {selected_cohort}"), 
+            st.plotly_chart(style_plot(fig_cohort_detail, f" Courbe de Rétention Cohorte {selected_cohort}"), 
                            use_container_width=True)
             
             # Analyse textuelle
@@ -214,7 +214,7 @@ if df is not None:
 
     # ============ COMPARAISON PAR TYPE DE CLIENT ============
     st.markdown("---")
-    st.markdown("### 🏪 Rétention par Type de Client (B2B vs B2C)")
+    st.markdown("###  Rétention par Type de Client (B2B vs B2C)")
     
     # Identifier type client selon quantité
     df['ClientType'] = df['Quantity'].apply(lambda x: 'B2B (Grossiste)' if abs(x) > 50 else 'B2C (Détail)')
@@ -265,10 +265,10 @@ if df is not None:
         fig_ret_type.update_yaxes(tickformat='.0%')
         fig_ret_type.update_layout(height=400)
         
-        st.plotly_chart(style_plot(fig_ret_type, "📈 Rétention Moyenne B2B vs B2C"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_ret_type, " Rétention Moyenne B2B vs B2C"), use_container_width=True)
         
         st.markdown("""
-        💡 **Interprétation** :
+         **Interprétation** :
         - Si la courbe **B2B** est au-dessus → Les grossistes reviennent plus régulièrement
         - Si la courbe **B2C** décroche rapidement → Problème de fidélisation détail (remises, emballage, etc.)
         - **Action** : Adapter la stratégie de rétention par type (B2B = contrats, B2C = programmes fidélité)
