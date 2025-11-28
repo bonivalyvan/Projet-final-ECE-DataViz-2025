@@ -30,14 +30,14 @@ Cette application permet à votre **équipe marketing** de :
 ✅ **Simuler** l'impact business de scénarios (remise, rétention, marge)  
 ✅ **Exporter** des listes activables pour votre CRM/emailing  
 
-### 📊 Données
+###  Données
 - **Source** : Online Retail II (UCI Machine Learning Repository)
 - **Période** : Décembre 2009 - Décembre 2011 (~1,07M transactions)
 - **Géographie** : Détaillant UK avec clients mondiaux
 
 ---
 
-## 🚀 Installation
+##  Installation
 
 ### Prérequis
 - Python 3.8+ ([télécharger](https://www.python.org/downloads/))
@@ -206,7 +206,7 @@ Projet-final-ECE-DataViz-2025/
 
 ---
 
-## 📖 Utilisation
+##  Utilisation
 
 ### 🎯 Workflow Typique
 
@@ -307,34 +307,6 @@ streamlit run app/streamlit_app.py --logger.level=debug
 
 ---
 
-## 🐛 Dépannage
-
-### ❌ "Fichier online_retail_II.xlsx introuvable"
-**Solution** : Télécharger depuis [UCI Repository](https://archive.ics.uci.edu/dataset/352/online+retail+ii) et placer dans `data/raw/`
-
-### ❌ "ModuleNotFoundError: No module named 'streamlit'"
-**Solution** : Vérifier que l'environnement virtuel est activé et `pip install -r requirement.txt`
-
-### ❌ "Les graphiques sont vides"
-**Solution** : Les filtres sont trop restrictifs. Élargir la période ou les pays.
-
-### ❌ "AttributeError: 'DataFrame' object has no attribute 'map'"
-**Solution** : Mise à jour pandas requise. Faire `pip install --upgrade pandas`
-
-### ❌ Export PNG ne fonctionne pas
-**Solution** : Installer `kaleido` avec `pip install kaleido`
-
----
-
-## 🔐 Sécurité des Données
-
-- ✅ Les données ne sont PAS envoyées en ligne
-- ✅ Tout se passe localement (votre ordinateur)
-- ✅ Pas d'authentification requise (environnement interne)
-- ✅ Exports en CSV/Excel (format standard, pas cloud)
-
----
-
 ## 🤝 Support
 
 Pour des questions ou bugs :
@@ -357,7 +329,7 @@ Pour des questions ou bugs :
 - **Données** : [UCI Online Retail II Dataset](https://archive.ics.uci.edu/dataset/352/online+retail+ii)
 - **Framework** : [Streamlit](https://streamlit.io/)
 - **Visualisations** : [Plotly](https://plotly.com/)
-- **Auteur** : Équipe Analytics ECE 2025
+- **Auteur** : Équipe IDK ECE 2025
 
 ---
 
