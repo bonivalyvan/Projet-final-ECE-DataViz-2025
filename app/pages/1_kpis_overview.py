@@ -16,12 +16,12 @@ load_css()
 df, analysis_date = sidebar_filters()
 
 if df is not None:
-    st.title("📊 Tableau de Bord Exécutif")
+    st.title(" Tableau de Bord Exécutif")
     
     # Afficher les filtres actifs
     from utils.data_loader import date_range, selected_countries, return_mode
     st.sidebar.markdown("---")
-    st.sidebar.markdown("### ✅ Filtres Actifs")
+    st.sidebar.markdown("###  Filtres Actifs")
     st.sidebar.markdown(f"**Période** : {date_range[0].strftime('%d/%m/%y')} → {date_range[1].strftime('%d/%m/%y')}")
     st.sidebar.markdown(f"**Pays** : {', '.join(selected_countries[:3])}{'...' if len(selected_countries) > 3 else ''}")
     if return_mode == "Exclure les retours":
@@ -34,7 +34,7 @@ if df is not None:
     rfm_df = compute_rfm(df, analysis_date)
     
     # ============ KPIs PRINCIPAUX ============
-    st.markdown("### 🎯 KPIs Clés")
+    st.markdown("###  KPIs Clés")
     
     nb_clients = df['Customer ID'].nunique()
     ca_total = df['TotalPrice'].sum()
@@ -45,28 +45,28 @@ if df is not None:
     
     with col1:
         st.metric(
-            "👥 Clients Actifs",
+            " Clients Actifs",
             f"{nb_clients:,}",
             help=f"{get_kpi_help('clients_actifs')}"
         )
     
     with col2:
         st.metric(
-            "💰 Chiffre d'Affaires",
+            " Chiffre d'Affaires",
             f"{ca_total:,.0f} £",
             help=f"{get_kpi_help('ca_total')}"
         )
     
     with col3:
         st.metric(
-            "🛒 Panier Moyen",
+            " Panier Moyen",
             f"{panier_moyen:.1f} £",
             help=f"{get_kpi_help('panier_moyen')}"
         )
     
     with col4:
         st.metric(
-            "📈 CLV Empirique",
+            "CLV Empirique",
             f"{clv_hist:.1f} £",
             help=f"{get_kpi_help('clv_historique')}"
         )
@@ -74,7 +74,7 @@ if df is not None:
     st.markdown("###")
     
     # ============ GRAPHIQUES PRINCIPAUX ============
-    st.markdown("### 📈 Vue d'Ensemble")
+    st.markdown("###  Vue d'Ensemble")
     
     col1, col2 = st.columns([3, 2])
 
@@ -94,7 +94,7 @@ if df is not None:
         fig_country.update_layout(yaxis={'categoryorder': 'total ascending'})
         fig_country.update_xaxes(title_text="Chiffre d'Affaires (£)")
         fig_country.update_yaxes(title_text="Pays")
-        st.plotly_chart(style_plot(fig_country, "🌍 Top 8 Marchés par CA"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_country, " Top 8 Marchés par CA"), use_container_width=True)
 
     with col2:
         # Répartition segments
@@ -149,18 +149,18 @@ if df is not None:
     fig_time.update_layout(
         hovermode='x unified',
         height=450,
-        title_text="📊 CA Mensuel & Clients Actifs"
+        title_text=" CA Mensuel & Clients Actifs"
     )
     st.plotly_chart(style_plot(fig_time), use_container_width=True)
     
     st.markdown("""
-    💡 **Lecture** : Les pics de CA correspondent-ils aux périodes de forte acquisition (Noël, Black Friday)? 
+     **Lecture** : Les pics de CA correspondent-ils aux périodes de forte acquisition (Noël, Black Friday)? 
     La courbe clients chute-t-elle avec le temps (indication d'une mauvaise rétention)?
     """)
 
     # ============ RÉTENTION & CLV ============
     st.markdown("---")
-    st.markdown("### 📊 Rétention & CLV par Cohorte")
+    st.markdown("###  Rétention & CLV par Cohorte")
     
     col1, col2 = st.columns(2)
     
@@ -187,7 +187,7 @@ if df is not None:
                 color_continuous_scale='Greens'
             )
             fig_ret.update_yaxes(tickformat='.0%')
-            st.plotly_chart(style_plot(fig_ret, "📈 Rétention Moyenne par Période"), use_container_width=True)
+            st.plotly_chart(style_plot(fig_ret, " Rétention Moyenne par Période"), use_container_width=True)
     
     with col2:
         # CLV empirique par cohorte
@@ -212,11 +212,11 @@ if df is not None:
         )
         fig_clv.update_xaxes(tickangle=-45, title_text="Cohorte")
         fig_clv.update_yaxes(title_text="CLV (£)")
-        st.plotly_chart(style_plot(fig_clv, "💵 CLV Empirique par Cohorte"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_clv, " CLV Empirique par Cohorte"), use_container_width=True)
 
     # ============ RFM SCORE DISTRIBUTION ============
     st.markdown("---")
-    st.markdown("### 🎯 Distribution des Scores RFM")
+    st.markdown("###  Distribution des Scores RFM")
     
     col1, col2, col3 = st.columns(3)
     
@@ -225,24 +225,24 @@ if df is not None:
         fig_r = px.bar(r_dist, labels={'index': 'R Score', 'value': 'Clients'}, color=r_dist.index)
         fig_r.update_xaxes(title_text="Récence Score")
         fig_r.update_yaxes(title_text="Nombre de Clients")
-        st.plotly_chart(style_plot(fig_r, "📍 Récence"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_r, " Récence"), use_container_width=True)
     
     with col2:
         f_dist = pd.Series(rfm_df['F_Score'].value_counts().sort_index())
         fig_f = px.bar(f_dist, labels={'index': 'F Score', 'value': 'Clients'}, color=f_dist.index)
         fig_f.update_xaxes(title_text="Fréquence Score")
         fig_f.update_yaxes(title_text="Nombre de Clients")
-        st.plotly_chart(style_plot(fig_f, "🔄 Fréquence"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_f, " Fréquence"), use_container_width=True)
     
     with col3:
         m_dist = pd.Series(rfm_df['M_Score'].value_counts().sort_index())
         fig_m = px.bar(m_dist, labels={'index': 'M Score', 'value': 'Clients'}, color=m_dist.index)
         fig_m.update_xaxes(title_text="Montant Score")
         fig_m.update_yaxes(title_text="Nombre de Clients")
-        st.plotly_chart(style_plot(fig_m, "💰 Montant"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_m, " Montant"), use_container_width=True)
     
     st.markdown("""
-    📌 **Interprétation** : 
+     **Interprétation** : 
     - Score 4 = clients excellents (récents, fréquents, haut montant)
     - Score 1 = clients critiques (anciens, peu fréquents, bas montant)
     """)
