@@ -162,9 +162,6 @@ headless = true
 Projet-final-ECE-DataViz-2025/
 │
 ├── 📄 README.md (ce fichier)
-├── 📄 AUDIT_RECOMMANDATIONS.md (audit complet)
-├── 📄 GUIDE_UTILISATEUR.md (guide marketing)
-├── 📄 GUIDE_TECHNIQUE.md (guide développeur)
 ├── 📄 requirement.txt (dépendances)
 │
 ├── 📁 app/
@@ -183,7 +180,7 @@ Projet-final-ECE-DataViz-2025/
 │       ├── rfm_calculator.py (calcul RFM)
 │       ├── cohort_calculator.py (calcul cohortes)
 │       ├── visualization.py (styles + graphiques)
-│       └── kpi_helpers.py (✨ NEW - définitions KPI)
+│       └── kpi_helpers.py ( NEW - définitions KPI)
 │
 ├── 📁 data/
 │   └── raw/
