@@ -33,7 +33,7 @@ def compute_rfm(df, analysis_date):
     labels = [1, 2, 3, 4]
     try:
         rfm['R_Score'] = pd.qcut(rfm['Recency'], q=4, labels=list(reversed(labels)))
-        rfm['F_Score'] = pd.qcut(rfm['Frequency'], q=4, labels=labels)
+        rfm['F_Score'] = pd.qcut(rfm['Frequency'].rank(method='first'), q=4, labels=labels)
         rfm['M_Score'] = pd.qcut(rfm['Monetary'], q=4, labels=labels)
     except ValueError:
         # Cas où il y a trop peu de données pour faire 4 quartiles
