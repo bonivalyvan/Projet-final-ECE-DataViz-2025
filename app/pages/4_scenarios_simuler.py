@@ -15,7 +15,7 @@ load_css()
 df, analysis_date = sidebar_filters()
 
 if df is not None:
-    st.title("🎮 Simulateur d'Impact Business")
+    st.title(" Simulateur d'Impact Business")
     rfm_df = compute_rfm(df, analysis_date)
 
     st.markdown("""
@@ -24,13 +24,13 @@ if df is not None:
     """)
 
     # ============ PARAMÈTRES DE SIMULATION ============
-    st.markdown("### ⚙️ Paramètres de Simulation")
+    st.markdown("###  Paramètres de Simulation")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         sim_margin = st.slider(
-            "💰 Marge (%)",
+            " Marge (%)",
             min_value=0.05,
             max_value=0.50,
             value=0.20,
@@ -40,7 +40,7 @@ if df is not None:
     
     with col2:
         sim_retention = st.slider(
-            "🔄 Rétention cible (r)",
+            " Rétention cible (r)",
             min_value=0.1,
             max_value=0.95,
             value=0.60,
@@ -50,7 +50,7 @@ if df is not None:
     
     with col3:
         discount_rate = st.number_input(
-            "📊 Taux d'actualisation (d)",
+            " Taux d'actualisation (d)",
             min_value=0.05,
             max_value=0.20,
             value=0.10,
@@ -76,20 +76,20 @@ if df is not None:
     delta_clv_pct = (delta_clv / clv_baseline * 100) if clv_baseline != 0 else 0
     
     # ============ AFFICHAGE DES KPIs ============
-    st.markdown("### 📊 Comparaison Baseline vs Scénario")
+    st.markdown("###  Comparaison Baseline vs Scénario")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.metric(
-            "💵 CLV Baseline",
+            " CLV Baseline",
             f"{clv_baseline:.2f} £",
             help="Référence : marge 20%, rétention 60%, d=10%"
         )
     
     with col2:
         st.metric(
-            "🎯 CLV Scénario simulé",
+            " CLV Scénario simulé",
             f"{clv_sim:.2f} £",
             delta=f"{delta_clv:.2f} £ ({delta_clv_pct:+.1f}%)",
             delta_color="normal" if delta_clv >= 0 else "inverse"
@@ -97,7 +97,7 @@ if df is not None:
     
     with col3:
         st.metric(
-            "👥 Parc Client",
+            " Parc Client",
             f"{df['Customer ID'].nunique():,}",
             help="Nombre de clients actifs dans la période"
         )
@@ -108,7 +108,7 @@ if df is not None:
         delta_value = total_value_scenario - total_value_baseline
         
         st.metric(
-            "💰 Valeur Parc (Scénario simulé)",
+            " Valeur Parc (Scénario simulé)",
             f"{total_value_scenario:,.0f} £",
             delta=f"{delta_value:,.0f} £",
             delta_color="normal" if delta_value >= 0 else "inverse"
@@ -116,7 +116,7 @@ if df is not None:
 
     # ============ GRAPHIQUES COMPARATIFS ============
     st.markdown("---")
-    st.markdown("### 📈 Visualisations de l'Impact")
+    st.markdown("###  Visualisations de l'Impact")
     
     col1, col2 = st.columns(2)
     
@@ -138,7 +138,7 @@ if df is not None:
         fig_comp.update_yaxes(title_text="CLV (£)")
         fig_comp.update_xaxes(title_text="")
         
-        st.plotly_chart(style_plot(fig_comp, "📊 CLV : Baseline vs Simulation"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_comp, " CLV : Baseline vs Simulation"), use_container_width=True)
     
     with col2:
         # Impact par segment
@@ -162,11 +162,11 @@ if df is not None:
         ))
         fig_seg.update_layout(barmode='group', xaxis_title="Segment", yaxis_title="CLV (£)")
         
-        st.plotly_chart(style_plot(fig_seg, "📊 Par Segment (Baseline vs Simulation)"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_seg, " Par Segment (Baseline vs Simulation)"), use_container_width=True)
 
     # ============ ANALYSE DE SENSIBILITÉ ============
     st.markdown("---")
-    st.markdown("### 🔬 Analyse de Sensibilité (Marge × Rétention)")
+    st.markdown("###  Analyse de Sensibilité (Marge × Rétention)")
     
     st.markdown("""
     Ces graphiques montrent comment la CLV varie en fonction des changements de **marge** et de **rétention**.
@@ -198,7 +198,7 @@ if df is not None:
             zaxis=dict(backgroundcolor="rgb(240, 240, 240)", gridcolor="white")
         ),
         height=600,
-        title_text="🔬 Surface de Sensibilité CLV"
+        title_text=" Surface de Sensibilité CLV"
     )
     
     st.plotly_chart(fig_3d, use_container_width=True)
@@ -221,20 +221,20 @@ if df is not None:
     fig_line.update_layout(
         xaxis_title='Rétention (r)',
         yaxis_title='CLV (£)',
-        title='📉 Sensibilité CLV à la Rétention (marge fixée)'
+        title=' Sensibilité CLV à la Rétention (marge fixée)'
     )
 
-    st.plotly_chart(style_plot(fig_line, "📉 Sensibilité CLV à la Rétention"), use_container_width=True)
+    st.plotly_chart(style_plot(fig_line, " Sensibilité CLV à la Rétention"), use_container_width=True)
     
     st.markdown("""
-    💡 **Lecture** :
+     **Lecture** :
     - La surface 3D montre toutes les combinaisons Marge × Rétention.
     - La courbe 2D montre l'effet marginal d'un gain de rétention à marge fixée.
     """)
 
     # ============ SCENARIOS SPÉDÉFINIS ============
     st.markdown("---")
-    st.markdown("### 🎯 Scénarios Pré-définis")
+    st.markdown("###  Scénarios Pré-définis")
     
     scenarios = {
         "Optimiste (+10% rétention)": {"retention": baseline_retention + 0.10, "margin": baseline_margin, "name": "Optimiste"},
@@ -263,7 +263,7 @@ if df is not None:
             delta_val = scenario["Delta vs Baseline"]
             delta_color = "normal" if scenario["Delta %"] >= 0 else "inverse"
             st.metric(
-                f"📊 {scenario['Scénario']}",
+                f" {scenario['Scénario']}",
                 f"{scenario['CLV']:.2f} £",
                 delta=f"{delta_val:+.2f} £ ({scenario['Delta %']:+.1f}%)",
                 delta_color=delta_color
@@ -271,7 +271,7 @@ if df is not None:
 
     # ============ IMPACT ROI ============
     st.markdown("---")
-    st.markdown("### 💹 Calcul du ROI")
+    st.markdown("###  Calul du ROI")
     
     st.write("**Exemple de ROI pour une initiative** :")
     
@@ -279,7 +279,7 @@ if df is not None:
     
     with col1:
         initiative_cost = st.number_input(
-            "💸 Coût de l'initiative (£)",
+            " Coût de l'initiative (£)",
             min_value=0.0,
             value=5000.0,
             step=100.0,
@@ -288,7 +288,7 @@ if df is not None:
     
     with col2:
         affected_customers = st.number_input(
-            "👥 Clients affectés",
+            " Clients affectés",
             min_value=0,
             value=int(df['Customer ID'].nunique() / 10),
             step=100,
@@ -300,11 +300,11 @@ if df is not None:
         roi = ((value_created - initiative_cost) / initiative_cost * 100) if initiative_cost > 0 else 0
         
         col1, col2, col3 = st.columns(3)
-        col1.metric("📈 Valeur Créée", f"{value_created:,.0f} £")
-        col2.metric("💰 ROI", f"{roi:+.1f}%", delta_color="normal" if roi >= 0 else "inverse")
-        col3.metric("⏱️ Payback", f"{initiative_cost / (value_created / 365) if value_created > 0 else float('inf'):.0f} jours")
+        col1.metric(" Valeur Créée", f"{value_created:,.0f} £")
+        col2.metric(" ROI", f"{roi:+.1f}%", delta_color="normal" if roi >= 0 else "inverse")
+        col3.metric(" Payback", f"{initiative_cost / (value_created / 365) if value_created > 0 else float('inf'):.0f} jours")
         
         if roi >= 0:
-            st.success(f"✅ Initiative rentable ! ROI positif de {roi:.1f}%")
+            st.success(f" Initiative rentable ! ROI positif de {roi:.1f}%")
         else:
-            st.error(f"❌ Initiative non rentable. ROI négatif de {roi:.1f}%")
+            st.error(f" Initiative non rentable. ROI négatif de {roi:.1f}%")
