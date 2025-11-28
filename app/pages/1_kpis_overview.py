@@ -66,7 +66,7 @@ if df is not None:
     
     with col4:
         st.metric(
-            "CLV Empirique",
+            " CLV Empirique",
             f"{clv_hist:.1f} £",
             help=f"{get_kpi_help('clv_historique')}"
         )
