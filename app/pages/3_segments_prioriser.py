@@ -13,21 +13,21 @@ load_css()
 df, analysis_date = sidebar_filters()
 
 if df is not None:
-    st.title("🎯 Segmentation & Priorisation RFM")
+    st.title(" Segmentation & Priorisation RFM")
     rfm_df = compute_rfm(df, analysis_date)
 
     # ============ GUIDE DES SEGMENTS ============
-    with st.expander("📘 Comprendre les Segments RFM", expanded=False):
+    with st.expander(" Comprendre les Segments RFM", expanded=False):
         st.markdown("""
         La segmentation RFM identifie 5 groupes de clients basés sur leurs comportements d'achat.
         
         | Segment | Caractéristique | Action |
         |---------|-----------------|--------|
-        | **🏆 Champions** | Achètent récemment, souvent et cher | **VIP & Upselling** |
-        | **🌱 Loyaux Potentiels** | Bons clients récents | **Cross-selling** |
-        | **👋 Nouveaux Prometteurs** | Premiers achats récents | **Welcome Program** |
-        | **⚠️ À Risque** | Anciens clients inactifs avec forte valeur | **Win-back urgent** |
-        | **💤 Hibernants** | Inactifs depuis longtemps | **Nettoyage/Réactivation** |
+        | ** Champions** | Achètent récemment, souvent et cher | **VIP & Upselling** |
+        | ** Loyaux Potentiels** | Bons clients récents | **Cross-selling** |
+        | ** Nouveaux Prometteurs** | Premiers achats récents | **Welcome Program** |
+        | ** À Risque** | Anciens clients inactifs avec forte valeur | **Win-back urgent** |
+        | ** Hibernants** | Inactifs depuis longtemps | **Nettoyage/Réactivation** |
         
         **Formule** : Chaque client reçoit un score 1-4 pour :
         - **R (Récence)** : Jours depuis dernier achat (4=aujourd'hui, 1=longtemps)
@@ -36,7 +36,7 @@ if df is not None:
         """)
 
     # ============ TABLE RFM COMPLÈTE ============
-    st.markdown("### 📊 Table RFM Complète (Codes, Labels, Volumes, CA, Marge, Panier)")
+    st.markdown("###  Table RFM Complète (Codes, Labels, Volumes, CA, Marge, Panier)")
     
     # Convertir les colonnes score en numériques (au cas où elles seraient catégories)
     rfm_df['R_Score'] = pd.to_numeric(rfm_df['R_Score'], errors='coerce')
@@ -94,7 +94,7 @@ if df is not None:
     rfm_table_display['Marge_Moyen'] = rfm_table_display['Marge_Moyen'].apply(lambda x: f"£{x:.1f}")
     rfm_table_display['Récence_Moy'] = rfm_table_display['Récence_Moy'].apply(lambda x: f"{int(x)} j")
     rfm_table_display['Fréquence_Moy'] = rfm_table_display['Fréquence_Moy'].apply(lambda x: f"{x:.1f}")
-    rfm_table_display['Priorité'] = ['🔴 CRITIQUE', '🟠 HAUTE', '🟡 MOYEN', '🟢 BASSE', '⚪ MINIMAL'][:len(rfm_table_display)]
+    rfm_table_display['Priorité'] = [' CRITIQUE', ' HAUTE', ' MOYEN', ' BASSE', ' MINIMAL'][:len(rfm_table_display)]
     
     # Afficher table
     display_cols = ['Segment', 'Code_RFM', 'Volume (Clients)', 'CA_Total', 'Panier_Moyen', 
@@ -113,7 +113,7 @@ if df is not None:
 
     # ============ RÉSUMÉ PAR SEGMENT ============
     st.markdown("---")
-    st.markdown("### 📊 Vue d'Ensemble des Segments")
+    st.markdown("###  Vue d'Ensemble des Segments")
     
     summary = rfm_table.copy()
     summary = summary.rename(columns={
@@ -140,10 +140,10 @@ if df is not None:
     
         # ============ TABLEAUX DÉTAILLÉS ET MATRICE ============
     st.markdown("---")
-    st.markdown("### 💼 Analyse Détail & Positionnement")
+    st.markdown("###  Analyse Détail & Positionnement")
     
     # Tableau de détail - EN HAUT
-    st.markdown("#### 🔍 Tableau de Détail par Segment")
+    st.markdown("####  Tableau de Détail par Segment")
     
     # Permettre le tri par segment
     selected_segment = st.selectbox(
@@ -157,27 +157,27 @@ if df is not None:
     
     # Afficher les métriques détaillées
     col_s1, col_s2, col_s3 = st.columns(3)
-    col_s1.metric("👥 Clients", f"{len(segment_data):,}", 
+    col_s1.metric(" Clients", f"{len(segment_data):,}", 
                  help=f"{len(segment_data)/len(rfm_df)*100:.1f}% de la base")
-    col_s2.metric("💰 CA Total", f"{segment_data['Monetary'].sum():,.0f} £",
+    col_s2.metric(" CA Total", f"{segment_data['Monetary'].sum():,.0f} £",
                  help=f"Génère {segment_data['Monetary'].sum()/rfm_df['Monetary'].sum()*100:.1f}% du CA")
-    col_s3.metric("📈 Panier Moyen", f"{segment_data['Monetary'].mean():.1f} £",
+    col_s3.metric(" Panier Moyen", f"{segment_data['Monetary'].mean():.1f} £",
                  help=f"Valeur moyenne par client")
     
     # Ajouter d'autres métriques
     col_s4, col_s5, col_s6 = st.columns(3)
-    col_s4.metric("📅 Récence Moy", f"{segment_data['Recency'].mean():.0f} j",
+    col_s4.metric(" Récence Moy", f"{segment_data['Recency'].mean():.0f} j",
                  help="Dernier achat moyen (jours)")
-    col_s5.metric("🔄 Fréquence Moy", f"{segment_data['Frequency'].mean():.1f}",
+    col_s5.metric(" Fréquence Moy", f"{segment_data['Frequency'].mean():.1f}",
                  help="Nombre moyen d'achats")
-    col_s6.metric("💎 Marge Estimée", f"{segment_data['Marge_Estimée'].sum():,.0f} £",
+    col_s6.metric(" Marge Estimée", f"{segment_data['Marge_Estimée'].sum():,.0f} £",
                  help="Marge totale estimée (25%)")
     
     # Espacement
     st.markdown("###")
     
     # Matrice Valeur / Risque - EN BAS
-    st.markdown("#### 🎯 Matrice Valeur / Risque")
+    st.markdown("####  Matrice Valeur / Risque")
     
     # Utiliser les données de summary pour le scatter
     scatter_data = summary[['Segment', 'Récence_Moy', 'CA Total', 'Panier Moyen', 'Clients']].copy()
@@ -205,7 +205,7 @@ if df is not None:
     st.plotly_chart(fig_scat, use_container_width=True)
     
     st.markdown("""
-    💡 **Lecture du graphique** :
+     **Lecture du graphique** :
     - **Bas-Gauche (Meilleur)** : Champions - Récents, haute valeur
     - **Bas-Droite (Risque)** : À Risque - Anciens mais valeur élevée
     - **Haut-Gauche (Potentiel)** : Nouveaux - Récents, à cultiver
@@ -213,7 +213,7 @@ if df is not None:
     """)
     # ============ CLV PAR SEGMENT ============
     st.markdown("---")
-    st.markdown("### 💵 Valeur & Potentiel par Segment")
+    st.markdown("###  Valeur & Potentiel par Segment")
     
     col1, col2 = st.columns(2)
     
@@ -233,7 +233,7 @@ if df is not None:
         )
         fig_clv.update_xaxes(title_text="CLV Moyenne (£)")
         fig_clv.update_yaxes(title_text="")
-        st.plotly_chart(style_plot(fig_clv, "💵 CLV Moyenne par Segment"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_clv, " CLV Moyenne par Segment"), use_container_width=True)
     
     with col2:
         clv_total_data = rfm_table[['Segment', 'CA_Total']].copy()
@@ -251,36 +251,36 @@ if df is not None:
         )
         fig_clv_total.update_xaxes(title_text="CLV Totale (£)")
         fig_clv_total.update_yaxes(title_text="")
-        st.plotly_chart(style_plot(fig_clv_total, "💰 Contribution Totale au CA"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_clv_total, " Contribution Totale au CA"), use_container_width=True)
 
     # ============ ACTIONS RECOMMANDÉES ============
     st.markdown("---")
-    st.markdown("### ⚡ Plan d'Action Recommandé")
+    st.markdown("###  Plan d'Action Recommandé")
     
     action_map = {
-        "Champions 🏆": {
+        "Champions ": {
             "color": "alert-green",
-            "title": "🏆 Champions",
+            "title": " Champions",
             "action": "**Chouchouter** - Programme VIP, accès prioritaire, personal shopping"
         },
-        "Loyaux Potentiels 🌱": {
+        "Loyaux Potentiels ": {
             "color": "alert-green",
-            "title": "🌱 Loyaux Potentiels",
+            "title": " Loyaux Potentiels",
             "action": "**Cross-Selling** - Proposer produits complémentaires, bundle deals"
         },
-        "Nouveaux Prometteurs 👋": {
+        "Nouveaux Prometteurs ": {
             "color": "alert-yellow",
-            "title": "👋 Nouveaux",
+            "title": " Nouveaux",
             "action": "**Welcome Program** - Follow-up personnalisé, remise fidélité, nurturing"
         },
-        "À Risque ⚠️": {
+        "À Risque ": {
             "color": "alert-yellow",
-            "title": "⚠️ À Risque",
+            "title": " À Risque",
             "action": "**Win-back Campaign** - Offre spéciale (10-15%), raison absence, reconquête"
         },
-        "Hibernants 💤": {
+        "Hibernants ": {
             "color": "alert-red",
-            "title": "💤 Hibernants",
+            "title": " Hibernants",
             "action": "**Nettoyage/Réactivation** - Campagne de réactivation légère ou suppression BDD"
         }
     }
@@ -295,7 +295,7 @@ if df is not None:
 
     # ============ STATISTIQUES DÉTAILLÉES ============
     st.markdown("---")
-    st.markdown("### 📋 Statistiques Détaillées par Segment")
+    st.markdown("###  Statistiques Détaillées par Segment")
     
     for segment in rfm_df['Segment_Label'].unique():
         with st.expander(f"Détails : {segment}"):
