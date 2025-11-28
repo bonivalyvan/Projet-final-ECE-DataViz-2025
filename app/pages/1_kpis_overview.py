@@ -108,11 +108,11 @@ if df is not None:
             color_discrete_sequence=px.colors.qualitative.Prism
         )
         fig_pie.update_traces(textposition='inside', textinfo='percent+label')
-        st.plotly_chart(style_plot(fig_pie, "📊 Répartition Segments RFM"), use_container_width=True)
+        st.plotly_chart(style_plot(fig_pie, " Répartition Segments RFM"), use_container_width=True)
 
     # ============ ÉVOLUTION TEMPORELLE ============
     st.markdown("---")
-    st.markdown("### 📉 Saisonnalité & Tendances")
+    st.markdown("###  Saisonnalité & Tendances")
     
     df['YearMonth'] = df['InvoiceDate'].dt.to_period('M')
     monthly_ca = df.groupby('YearMonth').agg({
