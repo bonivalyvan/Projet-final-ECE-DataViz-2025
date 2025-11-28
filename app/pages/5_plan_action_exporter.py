@@ -12,7 +12,7 @@ load_css()
 df, analysis_date = sidebar_filters()
 
 if df is not None:
-    st.title("📥 Plan d'Action & Exports")
+    st.title(" Plan d'Action & Exports")
     rfm_df = compute_rfm(df, analysis_date)
 
     st.markdown("""
@@ -21,7 +21,7 @@ if df is not None:
     """)
 
     # ============ SÉLECTION DES SEGMENTS ============
-    st.markdown("### 🎯 Sélectionner les Segments à Exporter")
+    st.markdown("###  Sélectionner les Segments à Exporter")
     
     all_segments = sorted(rfm_df['Segment_Label'].unique().tolist())
     
@@ -29,12 +29,12 @@ if df is not None:
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("🏆 Champions", key="btn_champs"):
-            st.session_state.selected_segs = ['Champions 🏆']
+        if st.button(" Champions", key="btn_champs"):
+            st.session_state.selected_segs = ['Champions ']
     
     with col2:
-        if st.button("⚠️ À Risque", key="btn_risk"):
-            st.session_state.selected_segs = ['À Risque ⚠️']
+        if st.button(" À Risque", key="btn_risk"):
+            st.session_state.selected_segs = ['À Risque ']
     
     with col3:
         if st.button("✅ Tous", key="btn_all"):
@@ -44,7 +44,7 @@ if df is not None:
     target_segs = st.multiselect(
         "Ou sélectionner manuellement",
         options=all_segments,
-        default=['Champions 🏆', 'À Risque ⚠️'] if 'selected_segs' not in st.session_state else st.session_state.get('selected_segs', []),
+        default=['Champions ', 'À Risque '] if 'selected_segs' not in st.session_state else st.session_state.get('selected_segs', []),
         help="Choisissez un ou plusieurs segments pour exporter les listes"
     )
 
@@ -53,37 +53,37 @@ if df is not None:
         
         # ============ STATISTIQUES ============
         st.markdown("---")
-        st.markdown("### 📊 Résumé de l'Export")
+        st.markdown("###  Résumé de l'Export")
         
         col1, col2, col3, col4 = st.columns(4)
         
         col1.metric(
-            "👥 Clients à Contacter",
+            " Clients à Contacter",
             f"{len(export_df):,}",
             help=f"{len(export_df)/len(rfm_df)*100:.1f}% de la base"
         )
         
         col2.metric(
-            "💰 CA Potentiel",
+            " CA Potentiel",
             f"{export_df['Monetary'].sum():,.0f} £",
             help=f"{export_df['Monetary'].sum()/rfm_df['Monetary'].sum()*100:.1f}% du CA total"
         )
         
         col3.metric(
-            "📈 Panier Moyen",
+            " Panier Moyen",
             f"{export_df['Monetary'].mean():.1f} £",
             help="Valeur moyenne par client du segment"
         )
         
         col4.metric(
-            "🔄 Fréquence Moy.",
+            " Fréquence Moy.",
             f"{export_df['Frequency'].mean():.1f}",
             help="Nombre moyen d'achats par client"
         )
 
         # ============ PRÉVISUALISATION ============
         st.markdown("---")
-        st.markdown("### 👁️ Prévisualisation des Données")
+        st.markdown("###  Prévisualisation des Données")
         
         # Préparer les colonnes pour l'export
         export_display = export_df[[
@@ -104,7 +104,7 @@ if df is not None:
         
                 # ============ VUE GRAPHIQUE EXPORTABLE ============
         st.markdown("---")
-        st.markdown("### 📊 Vue Graphique des Segments (Exportable en PNG)")
+        st.markdown("###  Vue Graphique des Segments (Exportable en PNG)")
 
         # Exemple : répartition des segments dans la liste activable
         seg_counts = export_df['Segment_Label'].value_counts().reset_index()
@@ -137,7 +137,7 @@ if df is not None:
 
         # ============ TÉLÉCHARGEMENTS ============
         st.markdown("---")
-        st.markdown("### 📥 Téléchargements")
+        st.markdown("###  Téléchargements")
         
         # CSV Export
         csv_data = export_display.to_csv(index=False).encode('utf-8')
@@ -169,7 +169,7 @@ if df is not None:
             
             excel_buffer.seek(0)
             st.download_button(
-                label="📊 Télécharger Excel",
+                label=" Télécharger Excel",
                 data=excel_buffer.getvalue(),
                 file_name=f"CRM_Export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
                 mime="application/vnd.ms-excel"
@@ -179,59 +179,59 @@ if df is not None:
 
         # ============ GUIDES D'UTILISATION ============
         st.markdown("---")
-        st.markdown("### 📋 Guides d'Utilisation par Segment")
+        st.markdown("###  Guides d'Utilisation par Segment")
         
         guides = {
-            "Champions 🏆": {
+            "Champions ": {
                 "objectives": "Conserver, augmenter panier moyen, transformer en ambassadeurs",
                 "actions": [
-                    "✅ Accès VIP à nos nouveautés (early access)",
-                    "✅ Programme de parrainage (bonus pour chaque ami recruté)",
-                    "✅ Remises progressives ou points fidélité",
-                    "✅ Personal shopping, consultation privée"
+                    " Accès VIP à nos nouveautés (early access)",
+                    " Programme de parrainage (bonus pour chaque ami recruté)",
+                    " Remises progressives ou points fidélité",
+                    " Personal shopping, consultation privée"
                 ],
                 "channels": "Email personnalisé, SMS, téléphone",
                 "frequency": "Mensuel ou bi-mensuel"
             },
-            "À Risque ⚠️": {
+            "À Risque ": {
                 "objectives": "Réactiver rapidement, comprendre les raisons du départ",
                 "actions": [
-                    "🔥 Win-back campaign avec offre spéciale (10-15% remise)",
-                    "🔥 Sondage de satisfaction : pourquoi absent?",
-                    "🔥 Exclusivité temporaire (offre réservée aux clients à risque)",
-                    "🔥 Nouvelle collection / produit pertinent"
+                    " Win-back campaign avec offre spéciale (10-15% remise)",
+                    " Sondage de satisfaction : pourquoi absent?",
+                    " Exclusivité temporaire (offre réservée aux clients à risque)",
+                    " Nouvelle collection / produit pertinent"
                 ],
                 "channels": "Email, SMS, Retargeting display",
                 "frequency": "Immédiat puis hebdomadaire pendant 4-6 semaines"
             },
-            "Hibernants 💤": {
+            "Hibernants ": {
                 "objectives": "Coût faible, tester réactivation avant suppression",
                 "actions": [
-                    "⚪ Email de réactivation simple (sans offre coûteuse)",
-                    "⚪ Après 30j sans réponse → Supprimer de la BDD",
-                    "⚪ Alternative : Les conserver mais segmenter à part (coûts BDD/spam)"
+                    " Email de réactivation simple (sans offre coûteuse)",
+                    " Après 30j sans réponse → Supprimer de la BDD",
+                    " Alternative : Les conserver mais segmenter à part (coûts BDD/spam)"
                 ],
                 "channels": "Email automatisé",
                 "frequency": "Unique"
             },
-            "Loyaux Potentiels 🌱": {
+            "Loyaux Potentiels ": {
                 "objectives": "Cross-selling, développement du panier moyen",
                 "actions": [
-                    "💚 Bundle de produits complémentaires",
-                    "💚 Offre multi-achat (ex: 2 produits = -10%)",
-                    "💚 Contenu éducatif (utilisation, combinaisons)",
-                    "💚 Réductions limitées pour créer urgence"
+                    " Bundle de produits complémentaires",
+                    " Offre multi-achat (ex: 2 produits = -10%)",
+                    " Contenu éducatif (utilisation, combinaisons)",
+                    " Réductions limitées pour créer urgence"
                 ],
                 "channels": "Email, newsletter, contenu digital",
                 "frequency": "Bi-mensuel"
             },
-            "Nouveaux Prometteurs 👋": {
+            "Nouveaux Prometteurs ": {
                 "objectives": "Fixer le client, transformer en régulier",
                 "actions": [
-                    "🌟 Welcome email + guide produit",
-                    "🌟 Remise fidélité (5-10%) sur 2e achat",
-                    "🌟 Quiz/sondage pour comprendre besoins",
-                    "🌟 Suivi post-achat (satisfaction, conseils)"
+                    " Welcome email + guide produit",
+                    " Remise fidélité (5-10%) sur 2e achat",
+                    " Quiz/sondage pour comprendre besoins",
+                    " Suivi post-achat (satisfaction, conseils)"
                 ],
                 "channels": "Email automation, SMS",
                 "frequency": "J+1, J+7, J+30"
@@ -251,7 +251,7 @@ if df is not None:
 
         # ============ FILTRES APPLIQUÉS ============
         st.markdown("---")
-        st.markdown("### ℹ️ Contexte de l'Export")
+        st.markdown("###  Contexte de l'Export")
         
         # Formater les filtres avec valeurs par défaut
         periode_text = f"{date_range[0].strftime('%d/%m/%Y')} → {date_range[1].strftime('%d/%m/%Y')}" if date_range else "Toute période"
@@ -261,17 +261,17 @@ if df is not None:
         with st.container():
             st.markdown(f"""
 **Filtres Appliqués** :
-- 📅 **Période** : {periode_text}
-- 🌍 **Pays** : {pays_text}
-- 📦 **Retours** : {retours_text}
+-  **Période** : {periode_text}
+-  **Pays** : {pays_text}
+-  **Retours** : {retours_text}
 
 **Recommandations d'Utilisation** :
-1. ✅ Tester sur petit échantillon (1000 clients) avant déploiement massif
-2. ✅ Segmenter vos messages par segment RFM
-3. ✅ Mesurer KPIs (taux d'ouverture, conversion, ROI)
-4. ✅ Revenir ici chaque mois pour mettre à jour les listes
+1.  Tester sur petit échantillon (1000 clients) avant déploiement massif
+2.  Segmenter vos messages par segment RFM
+3.  Mesurer KPIs (taux d'ouverture, conversion, ROI)
+4.  Revenir ici chaque mois pour mettre à jour les listes
             """)
 
 
     else:
-        st.info("📌 Sélectionnez au moins un segment pour afficher les données et créer un export.")
+        st.info(" Sélectionnez au moins un segment pour afficher les données et créer un export.")
